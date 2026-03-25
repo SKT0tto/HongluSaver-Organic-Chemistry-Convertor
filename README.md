@@ -4,7 +4,7 @@
 
 **Author:** Henry Lin  
 **Live app:** [https://honglusaver.streamlit.app/](https://honglusaver.streamlit.app/)  
-**Repository:** [github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor)
+**Repository:** [github.com/SKT0tto/HongluSaver-Organic-Chemistry-Converter](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Converter)
 
 ---
 
