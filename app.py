@@ -262,20 +262,14 @@ st.markdown(
         height: 100%;
         filter: drop-shadow(0 3px 10px rgba(124, 58, 237, 0.25));
     }
-    .sidebar-logo .logo-benzene .benzene-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) rotate(-18deg);
-        font-family: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
-        font-size: 0.68rem;
-        font-weight: 900;
-        letter-spacing: 0.03em;
-        white-space: nowrap;
-        background: linear-gradient(105deg, #7c3aed, #a855f7, #ec4899);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+    @media (prefers-color-scheme: dark) {
+        .sidebar-logo .logo-benzene svg text {
+            stroke: #1a1a2e;
+        }
+    }
+    [data-theme="dark"] .sidebar-logo .logo-benzene svg text,
+    .stApp[data-theme="dark"] .sidebar-logo .logo-benzene svg text {
+        stroke: #1a1a2e;
     }
     .sidebar-logo .logo-sub {
         font-family: 'Exo 2', sans-serif;
@@ -321,22 +315,6 @@ with st.sidebar:
 <div class="sidebar-logo">
     <div class="logo-benzene">
         <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-            <!-- outer hexagon -->
-            <polygon points="60,10 107,35 107,85 60,110 13,85 13,35"
-                     fill="none" stroke="url(#grad1)" stroke-width="3.2"
-                     stroke-linejoin="round"/>
-            <!-- inner circle (aromatic ring) -->
-            <circle cx="60" cy="60" r="24" fill="none"
-                    stroke="url(#grad1)" stroke-width="2.2"/>
-            <!-- vertex dots -->
-            <g fill="url(#grad1)">
-                <circle cx="60"  cy="10"  r="3.5"/>
-                <circle cx="107" cy="35"  r="3.5"/>
-                <circle cx="107" cy="85"  r="3.5"/>
-                <circle cx="60"  cy="110" r="3.5"/>
-                <circle cx="13"  cy="85"  r="3.5"/>
-                <circle cx="13"  cy="35"  r="3.5"/>
-            </g>
             <defs>
                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%"   stop-color="#7c3aed"/>
@@ -344,8 +322,22 @@ with st.sidebar:
                     <stop offset="100%" stop-color="#ec4899"/>
                 </linearGradient>
             </defs>
+            <!-- outer hexagon -->
+            <polygon points="60,10 103.3,35 103.3,85 60,110 16.7,85 16.7,35"
+                     fill="none" stroke="url(#grad1)" stroke-width="2.8"
+                     stroke-linejoin="round"/>
+            <!-- inner circle (aromatic ring) -->
+            <circle cx="60" cy="60" r="33" fill="none"
+                    stroke="url(#grad1)" stroke-width="2.8"/>
+            <!-- brand text -->
+            <text x="60" y="62"
+                  text-anchor="middle" dominant-baseline="central"
+                  transform="rotate(-18 60 60)"
+                  font-family="'Orbitron','Segoe UI',system-ui,sans-serif"
+                  font-size="13" font-weight="900" letter-spacing="0.4"
+                  fill="url(#grad1)"
+                  stroke="#ffffff" stroke-width="3" paint-order="stroke fill">HongluSaver</text>
         </svg>
-        <span class="benzene-text">HongluSaver</span>
     </div>
     <p class="logo-sub">Chemistry Formula Converter</p>
     <p class="logo-author">by Henry Lin</p>
