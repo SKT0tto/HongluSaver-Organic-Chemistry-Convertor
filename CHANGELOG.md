@@ -4,6 +4,13 @@ All notable changes to **HongluSaver - Chemistry Formula Converter** will be doc
 
 ---
 
+## [1.2.1] - 2026-03-26
+
+### Added
+- **Special thanks** to Henry Lu (aka Honglu) in README, app footer, and GitHub Pages landing page, with links to the Streamlit app and GitHub repository.
+
+---
+
 ## [1.2.0] - 2026-03-25
 
 ### Added

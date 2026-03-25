@@ -76,6 +76,11 @@ _T = {
         "isomer_invalid": "⚠️ 请输入有效的分子式（如 C4H10O）。",
         "isomer_examples": "常见 IB 分子式",
         "footer": "HongluSaver — Chemistry formula converter · 作者 Author: Henry Lin",
+        "special_thanks": (
+            "💜 **特别鸣谢** **Henry Lu（Honglu）** 为本项目带来灵感。有机化学曾令他在课堂上倍感压力，"
+            "但愿本工具也能减轻同名同学的负担。"
+            " [**网站**](https://honglusaver.streamlit.app/) · [**GitHub**](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor)"
+        ),
     },
     "en": {
         "page_title_cn": "🧪 IUPAC Organic Name → Structure Converter",
@@ -130,6 +135,11 @@ _T = {
         "isomer_invalid": "⚠️ Please enter a valid molecular formula (e.g. C4H10O).",
         "isomer_examples": "Common IB formulas",
         "footer": "HongluSaver — Chemistry formula converter · Author: Henry Lin",
+        "special_thanks": (
+            "💜 **Special thanks** to **Henry Lu** (*aka Honglu*) for the inspiration behind this app. "
+            "Organic chemistry was tough for him in class and often stressful — we hope this helps anyone in the same boat. "
+            " [**Website**](https://honglusaver.streamlit.app/) · [**GitHub**](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor)"
+        ),
     },
 }
 
@@ -712,3 +722,4 @@ with tab_isomer:
 
 st.divider()
 st.caption(t("footer"))
+st.markdown(t("special_thanks"))

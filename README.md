@@ -274,6 +274,14 @@ Copyright © Henry Lin. All rights reserved. The application is provided for **e
 
 ---
 
+## Special thanks
+
+**Henry Lu** (*aka Honglu*) inspired **HongluSaver**. Organic chemistry was genuinely hard for him to get on top of at school, and class often felt high-pressure — this project is for everyone who has been in that same place and wants names and structures to feel a bit less overwhelming.
+
+**Links:** [GitHub repository](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor) · [Web app (Streamlit)](https://honglusaver.streamlit.app/)
+
+---
+
 ## Acknowledgements
 
 - **RDKit** — cheminformatics toolkit  
