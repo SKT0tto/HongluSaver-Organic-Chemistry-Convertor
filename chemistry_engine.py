@@ -757,26 +757,36 @@ def search_formula_isomers(formula: str, max_results: int = 25) -> list[dict]:
     url = f"{base}/compound/formula/{encoded}/cids/JSON"
     req = urllib.request.Request(url, headers={"User-Agent": _HTTP_UA})
 
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read().decode())
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return []
-        raise ValueError(f"PubChem error: HTTP {e.code}")
+    def _pug_get(u, retries=3):
+        """GET with retry to survive transient SSL / connection drops."""
+        for attempt in range(retries):
+            r = urllib.request.Request(u, headers={"User-Agent": _HTTP_UA})
+            try:
+                with urllib.request.urlopen(r, timeout=30) as resp:
+                    return json.loads(resp.read().decode())
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    return None
+                if attempt == retries - 1:
+                    raise ValueError(f"PubChem error: HTTP {e.code}")
+            except urllib.error.URLError:
+                if attempt == retries - 1:
+                    return None
+            time.sleep(1)
+        return None
+
+    data = _pug_get(url)
+    if data is None:
+        return []
 
     retries = 0
-    while "Waiting" in data and retries < 15:
+    while "Waiting" in data and retries < 20:
         list_key = data["Waiting"]["ListKey"]
-        time.sleep(1.5)
+        time.sleep(2)
         poll_url = f"{base}/compound/listkey/{list_key}/cids/JSON"
-        req2 = urllib.request.Request(poll_url, headers={"User-Agent": _HTTP_UA})
-        try:
-            with urllib.request.urlopen(req2, timeout=30) as resp:
-                data = json.loads(resp.read().decode())
-        except urllib.error.HTTPError:
-            retries += 1
-            continue
+        result = _pug_get(poll_url)
+        if result is not None:
+            data = result
         retries += 1
 
     cids = data.get("IdentifierList", {}).get("CID", [])
@@ -787,14 +797,10 @@ def search_formula_isomers(formula: str, max_results: int = 25) -> list[dict]:
     cid_str = ",".join(str(c) for c in batch)
     prop_url = (
         f"{base}/compound/cid/{cid_str}/property/"
-        "IUPACName,CanonicalSMILES,MolecularFormula,MolecularWeight/JSON"
+        "IUPACName,CanonicalSMILES,ConnectivitySMILES,MolecularFormula,MolecularWeight/JSON"
     )
-    req3 = urllib.request.Request(prop_url, headers={"User-Agent": _HTTP_UA})
-
-    try:
-        with urllib.request.urlopen(req3, timeout=30) as resp:
-            prop_data = json.loads(resp.read().decode())
-    except (urllib.error.URLError, urllib.error.HTTPError):
+    prop_data = _pug_get(prop_url)
+    if prop_data is None:
         return []
 
     props = prop_data.get("PropertyTable", {}).get("Properties", [])
@@ -802,7 +808,7 @@ def search_formula_isomers(formula: str, max_results: int = 25) -> list[dict]:
     seen: set[str] = set()
     results: list[dict] = []
     for p in props:
-        smi = p.get("CanonicalSMILES", "")
+        smi = p.get("CanonicalSMILES") or p.get("ConnectivitySMILES") or ""
         if not smi or smi in seen:
             continue
         seen.add(smi)
