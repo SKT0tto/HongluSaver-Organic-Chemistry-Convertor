@@ -653,7 +653,8 @@ with tab_isomer:
         )
     with col_b:
         search_iso = st.button(
-            t("btn_find_isomers"), type="primary", use_container_width=True
+            t("btn_find_isomers"), type="primary", use_container_width=True,
+            key="btn_isomer_search",
         )
 
     def _set_iso_example(val):
