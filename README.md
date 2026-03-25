@@ -3,25 +3,35 @@
 **HongluSaver** is a web application for **organic chemistry name–structure interconversion**. It resolves **common names, trade names, and many IUPAC-style strings** to validated structures, then exports multiple representations (2D/3D, SMILES, InChI, molecular formula, properties). A **freehand drawing mode** (Ketcher) turns skeletal formulas into the same pipeline. Display naming is tuned toward **IB Chemistry (International Baccalaureate)** teaching conventions (systematic names preferred over selected retained trivial names where applicable).
 
 **Author:** Henry Lin  
-**Repository:** [HongluSaver-Organic-Chemistry-Convertor](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor) (example; update if your URL differs)
+**Live app:** [https://honglusaver.streamlit.app/](https://honglusaver.streamlit.app/)  
+**Repository:** [github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor](https://github.com/SKT0tto/HongluSaver-Organic-Chemistry-Convertor)
 
 ---
 
 ## Table of Contents
 
-1. [Features](#features)  
-2. [How It Works (Architecture)](#how-it-works-architecture)  
-3. [Prerequisites](#prerequisites)  
-4. [Local Installation](#local-installation)  
-5. [Running the App](#running-the-app)  
-6. [Deployment (Streamlit Community Cloud)](#deployment-streamlit-community-cloud)  
-7. [Project Structure](#project-structure)  
-8. [Configuration & Caching](#configuration--caching)  
-9. [External Services & Data Attribution](#external-services--data-attribution)  
-10. [Limitations & Disclaimers](#limitations--disclaimers)  
-11. [Development](#development)  
-12. [Changelog](#changelog)  
-13. [License](#license)  
+1. [Live demo](#live-demo)  
+2. [Features](#features)  
+3. [How It Works (Architecture)](#how-it-works-architecture)  
+4. [Prerequisites](#prerequisites)  
+5. [Local Installation](#local-installation)  
+6. [Running the App](#running-the-app)  
+7. [Deployment (Streamlit Community Cloud)](#deployment-streamlit-community-cloud)  
+8. [Project Structure](#project-structure)  
+9. [Configuration & Caching](#configuration--caching)  
+10. [External Services & Data Attribution](#external-services--data-attribution)  
+11. [Limitations & Disclaimers](#limitations--disclaimers)  
+12. [Development](#development)  
+13. [Changelog](#changelog)  
+14. [License](#license)  
+
+---
+
+## Live demo
+
+The production build is hosted on **Streamlit Community Cloud**:
+
+**[https://honglusaver.streamlit.app/](https://honglusaver.streamlit.app/)**
 
 ---
 
@@ -164,21 +174,21 @@ Default URL: **http://localhost:8501**
 
 ### Windows shortcut
 
-`HongluSaver.bat` can install dependencies on first run and launch Streamlit (keeps a console window open). Adjust paths if your Python installation is non-standard.
+`HongluSaver.bat` installs dependencies on first run and launches Streamlit (keeps a console window open).
 
 ---
 
 ## Deployment (Streamlit Community Cloud)
 
-1. Push this repository to **GitHub** (main branch).  
-2. On [Streamlit Community Cloud](https://share.streamlit.io/), create a **New app**.  
-3. Select the repo, branch, and **main file:** `app.py`.  
-4. **Python dependencies** are read from `requirements.txt`.  
-5. If RDKit rendering fails on the build image, ensure **`packages.txt`** is present (this repo lists minimal Debian packages for some RDKit backends).  
+The public instance runs at **[honglusaver.streamlit.app](https://honglusaver.streamlit.app/)**, deployed from this GitHub repository via [Streamlit Community Cloud](https://share.streamlit.io/).
 
-**Secrets:** The app does not require API keys for PubChem public endpoints. Do not commit secrets; use Streamlit **Secrets** only if you extend the app with private APIs.
+**Stack notes for redeployment or forks:**
 
-**Custom domains / branding:** Follow Streamlit Cloud documentation; author credit appears in-app (footer and sidebar).
+- Main entrypoint: **`app.py`**.  
+- Python packages: **`requirements.txt`**.  
+- **`packages.txt`** lists optional Debian packages used on the hosted image for RDKit-related rendering.  
+
+The app uses only **public** PubChem endpoints; no API keys are required for the current feature set.
 
 ---
 
@@ -209,7 +219,7 @@ The app uses `st.cache_data` with a **24-hour TTL** (and entry limits) for:
 - **3D Mol blocks** (by canonical SMILES)  
 - **Isomer search** (by formula string)  
 
-This reduces load on PubChem and speeds up repeat queries. Clear cache from Streamlit’s menu if you need to force fresh data.
+This reduces load on PubChem and speeds up repeat queries. Cached entries can be cleared from the Streamlit app menu when a full refresh is desired.
 
 ### Theme
 
@@ -243,22 +253,12 @@ Please respect **PubChem’s usage policies** and cite them in academic work whe
 
 ## Development
 
-### Suggested workflow
-
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
 
-### Optional quality improvements
-
-- Add **`pytest`** tests for `_ib_normalize`, `_preferred_display_name`, and formula / SMILES edge cases.  
-- Pin dependency versions in CI to match Streamlit Cloud.  
-- Add **screenshots** to this README (`docs/images/`).
-
-### Code style
-
-The codebase favors **clear separation**: `chemistry_engine.py` for science/network logic, `app.py` for presentation.
+Layout convention: **`chemistry_engine.py`** holds PubChem/RDKit integration and naming logic; **`app.py`** holds the Streamlit UI and presentation.
 
 ---
 
@@ -270,7 +270,7 @@ See **[CHANGELOG.md](./CHANGELOG.md)** for version history.
 
 ## License
 
-Unless otherwise specified in this repository, you may treat the project as **open for educational use**. If you need a standard license (e.g. MIT), add a `LICENSE` file and update this section accordingly.
+Copyright © Henry Lin. All rights reserved. The application is provided for **educational use**.
 
 ---
 
